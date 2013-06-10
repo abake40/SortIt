@@ -8,6 +8,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -63,6 +66,15 @@ public class FileUI extends JFrame implements ActionListener {
 		
 		manager = new FileManager();
 		
+		// load proeprties
+		Properties props = new Properties();
+		
+		try {
+			props.load(new FileInputStream("config.properties"));
+			System.out.println(props.getProperty("def.folder.location"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		this.setTitle("Download File Manager");
 		this.getContentPane().setLayout(new FlowLayout());
@@ -96,8 +108,8 @@ public class FileUI extends JFrame implements ActionListener {
 		exitButton.addActionListener(this);
 		
 		fileLoc = new JTextField();
-		//fileLoc.setText("Press Browse To Find a Folder"); -- DEBUG
-		fileLoc.setText("E:\\Usenet\\Downloads\\complete");
+		fileLoc.setText(props.getProperty("def.folder.location"));
+		fileLoc.setToolTipText("Press the browse button to find a folder");
 		
 		 // formatting
 		fileLoc.setLocation(100, 15);
